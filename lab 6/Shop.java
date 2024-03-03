@@ -1,3 +1,5 @@
+package store;
+
 import java.util.ArrayList;
 
 public class Shop {
@@ -11,8 +13,7 @@ public class Shop {
 
     private Item findItem(String id) {
         for (Item item : items) {
-            if (item.getId().equals(id)) 
-            {
+            if (item.getId().equals(id)) {
                 return item;
             }
         }
@@ -22,7 +23,7 @@ public class Shop {
     public void addItem(String name, String id, String category, double price, int count) {
         Item item = findItem(id);
         if (item != null) {
-            item.quantity += count;
+            item.setQuantity(item.getQuantity() + count);
         } else {
             items.add(new Item(name, id, category, price, count));
         }
@@ -32,6 +33,8 @@ public class Shop {
         Item item = findItem(id);
         if (item != null) {
             System.out.println(item);
+        } else {
+            System.out.println("Item not found");
         }
     }
 
@@ -44,7 +47,11 @@ public class Shop {
     public void sellAnItem(String id, int quantity) {
         Item item = findItem(id);
         if (item != null) {
-            item.quantity -= quantity;
+            if (item.getQuantity() >= quantity) {
+                item.setQuantity(item.getQuantity() - quantity);
+            } else {
+                System.out.println("Not enough quantity");
+            }
         } else {
             System.out.println("Item not found");
         }
